@@ -1,5 +1,6 @@
 package com.example.testik;
 
+import com.exception.UserNotFoundException;
 import com.model.User;
 import com.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class HelloController {
     }
     @PutMapping("/users/{id}")
     public User updateNote(@PathVariable (value = "id") Integer userId,
-                           @Valid @RequestBody User userDetails) throws Exception {
-        User user = userRepository.findById(userId).orElseThrow(() -> new Exception());
+                           @Valid @RequestBody User userDetails) throws UserNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
         user.setName(userDetails.getName());
         user.setAge(userDetails.getAge());
 
