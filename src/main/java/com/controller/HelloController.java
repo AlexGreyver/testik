@@ -1,9 +1,8 @@
-package com.example.testik;
+package com.controller;
 
 import com.exception.UserNotFoundException;
 import com.model.User;
 import com.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,8 +11,13 @@ import java.util.List;
 @RestController
 
 public class HelloController {
-    @Autowired
+    final
     UserRepository userRepository;
+
+    public HelloController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @GetMapping("/users")
     public List<User> getAllNotes() {
 
