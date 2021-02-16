@@ -26,7 +26,6 @@ public class HelloController {
         user.setName(userDetails.getName());
         user.setAge(userDetails.getAge());
 
-        User updatedUser = userRepository.save(user);
-        return updatedUser;
+        return userRepository.save(user);
     }
 }
