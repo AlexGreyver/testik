@@ -18,12 +18,22 @@ public class HelloController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/login")
+    public String login() {
+        return "/login";
+    }
+
+    @GetMapping("/403")
+    public String error403() {
+        return "/error/403";
+    }
+
+    @GetMapping("/users/get")
     public List<User> getAllNotes() {
 
         return userRepository.findAll();
     }
-    @PutMapping("/users/{id}")
+    @PutMapping("/users/put/{id}")
     public User updateNote(@PathVariable (value = "id") Integer userId,
                            @Valid @RequestBody User userDetails) throws UserNotFoundException {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
