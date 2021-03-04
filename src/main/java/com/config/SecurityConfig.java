@@ -9,14 +9,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import javax.sql.DataSource;
+
 @Configuration
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccessDeniedHandler accessDeniedHandler;
 
-    public SecurityConfig(AccessDeniedHandler accessDeniedHandler) {
+    public SecurityConfig(AccessDeniedHandler accessDeniedHandler, DataSource dataSource) {
         this.accessDeniedHandler = accessDeniedHandler;
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -38,19 +41,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    final
+    DataSource dataSource;
 
-        BCryptPasswordEncoder encoder = passwordEncoder();
-
-        auth.inMemoryAuthentication()
-                .withUser("user").password(encoder.encode("user")).roles("USER")
-                .and()
-                .withUser("admin").password(encoder.encode("admin")).roles("ADMIN");
-    }
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+
+
+        auth.jdbcAuthentication()
+                .dataSource(dataSource).usersByUsernameQuery(
+                        "select username, password, 'true' from users where username=?").
+                passwordEncoder(passwordEncoder()).authoritiesByUsernameQuery(
+                        "select username, role from users where username=?");
+
+    }
+
 
 }

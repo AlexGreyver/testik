@@ -18,6 +18,15 @@ public class User {
     @Column(name = "age")
     private Integer age;
 
+    @Column (name = "role")
+    private String role;
+
+    @Column(name = "username")
+    private String userName;
+
+    @Column(name = "password")
+    private String password;
+
     public Integer getId() {
         return id;
     }
@@ -42,14 +51,41 @@ public class User {
         this.age = age;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public User(){
         super();
     }
 
-    public User(Integer id, String name, Integer age){
+    public User(Integer id, String name, Integer age, String role, String userName, String password){
         super();
         this.id = id;
         this.name = name;
         this.age = age;
+        this.role = role;
+        this.userName = userName;
+        this.password = password;
     }
 }
