@@ -1,7 +1,8 @@
 package com.model;
 
 import javax.persistence.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -11,6 +12,23 @@ public class User {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @OneToMany(
+            mappedBy="user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    List<Book> books = new ArrayList<>();
+
+    public void addBook(Book book) {
+        books.add(book);
+
+    }
+
+    public void removeBook(Book book) {
+        books.remove(book);
+
+    }
 
     @Column(name = "name")
     private String name;
