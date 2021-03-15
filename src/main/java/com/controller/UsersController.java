@@ -59,11 +59,19 @@ public class UsersController {
         return "/error/403";
     }
 
-    @DeleteMapping("/books/delete/{id}")
-    public ResponseEntity deleteBook(@PathVariable(value = "id") Integer userId) throws UserNotFoundException {
+    @DeleteMapping("/users/delete/{id}")
+    public ResponseEntity deleteUser(@PathVariable(value = "id") Integer userId) throws UserNotFoundException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
         userRepository.delete(user);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/books/delete/{id}")
+    public ResponseEntity deleteBook(@PathVariable(value = "id") Integer bookId) throws BookNotFoundException {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException(bookId));
+        bookRepository.delete(book);
         return ResponseEntity.ok().build();
     }
 
