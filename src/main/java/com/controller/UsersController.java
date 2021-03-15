@@ -46,8 +46,11 @@ public class UsersController {
         return userRepository.save(user);
     }
 
-    @PostMapping("/books/post")
-    public Book createNote(@Valid @RequestBody Book book) {
+    @PostMapping("/books/post/{userId}")
+    public Book createNote(@Valid @RequestBody Book book, @PathVariable(value = "userId") Integer userId) throws UserNotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        book.setUser(user);
         return bookRepository.save(book);
     }
 

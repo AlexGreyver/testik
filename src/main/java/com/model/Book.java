@@ -40,7 +40,7 @@ public class Book{
         return user;
     }
 
-    public void setUser(User employee)
+    public void setUser(User user)
     {
         this.user = user;
     }
