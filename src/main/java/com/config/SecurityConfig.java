@@ -1,5 +1,6 @@
 package com.config;
 
+import com.components.MyBasicAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.accessDeniedHandler = accessDeniedHandler;
         this.dataSource = dataSource;
     }
-
+    @Autowired
+    private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -31,10 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/users/get")
-                .permitAll()
+                .httpBasic()
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .logout()
                 .permitAll()
