@@ -14,7 +14,10 @@ public class Book{
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @Column(name = "year")
+    private Integer year;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -35,6 +38,14 @@ public class Book{
         this.name = name;
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
     public User getUser()
     {
         return user;
@@ -44,16 +55,16 @@ public class Book{
     {
         this.user = user;
     }
+
     public Book(){
         super();
     }
 
-    public Book(Integer id, String name, User user){
+    public Book(Integer id, String name, Integer year, User user){
         super();
         this.user = user;
         this.id = id;
         this.name = name;
-
-
+        this.year = year;
     }
 }

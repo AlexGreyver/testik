@@ -17,20 +17,22 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccessDeniedHandler accessDeniedHandler;
+    private final MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+    private final DataSource dataSource;
 
-    public SecurityConfig(AccessDeniedHandler accessDeniedHandler, DataSource dataSource) {
+    public SecurityConfig(AccessDeniedHandler accessDeniedHandler, MyBasicAuthenticationEntryPoint authenticationEntryPoint, DataSource dataSource) {
         this.accessDeniedHandler = accessDeniedHandler;
+        this.authenticationEntryPoint = authenticationEntryPoint;
         this.dataSource = dataSource;
     }
-    @Autowired
-    private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/users/**").hasAnyRole("ADMIN")
-                .antMatchers("/users/get", "/books/get").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/users/get", "/books/get", "/error/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
@@ -41,8 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
-    final
-    DataSource dataSource;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

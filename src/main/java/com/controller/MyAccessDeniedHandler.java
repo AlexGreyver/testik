@@ -21,12 +21,10 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
                        HttpServletResponse httpServletResponse,
                        AccessDeniedException e) throws IOException {
 
-
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             logger.info("User '" + auth.getName() + "' attempted to access the protected URL: " + httpServletRequest.getRequestURI());
         }
-        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/403");
+        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/error/403");
     }
 }
