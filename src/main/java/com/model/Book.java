@@ -21,6 +21,10 @@ public class Book{
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lockedBy")
+    private User locker;
+
 
     public Integer getId() {
         return id;
@@ -56,15 +60,26 @@ public class Book{
         this.user = user;
     }
 
+    public User getLocker()
+    {
+        return locker;
+    }
+
+    public void setLocker(User locker)
+    {
+        this.locker = locker;
+    }
+
     public Book(){
         super();
     }
 
-    public Book(Integer id, String name, Integer year, User user){
+    public Book(Integer id, String name, Integer year, User user, User locker){
         super();
         this.user = user;
         this.id = id;
         this.name = name;
         this.year = year;
+        this.locker = locker;
     }
 }

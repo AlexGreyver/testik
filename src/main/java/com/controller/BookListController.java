@@ -47,16 +47,36 @@ public class BookListController {
 
     @Transactional
     @PutMapping("/booklist/put/{id}")
-    public Book changeUser(@PathVariable(value = "id") Integer bookId,
-                           @Valid @RequestBody Book bookDetails, HttpServletRequest httpServletRequest) throws BookNotFoundException, BookAccessException {
+    public Book getBook(@PathVariable(value = "id") Integer bookId,
+                           @Valid @RequestBody HttpServletRequest httpServletRequest)
+            throws BookNotFoundException, BookAccessException, InterruptedException {
         String currentUserName = httpServletRequest.getUserPrincipal().getName();
         Book book = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException(bookId));
         if (book.getUser().getUserName().equals(currentUserName) || (book.getUser().getUserName() == null) ) {
-            book.setUser(bookDetails.getUser());
+            book.setUser(userRepository.findByUserName(currentUserName));
+            Thread.sleep(10000);
             return bookRepository.save(book);
         }
         else {
             throw new BookAccessException(bookId);
         }
     }
+
+    @Transactional
+    @PutMapping("/booklist/lock/{id}")
+    public Book LockBook(@PathVariable(value = "id") Integer bookId, HttpServletRequest httpServletRequest)
+            throws BookNotFoundException, BookAccessException, InterruptedException {
+        String currentUserName = httpServletRequest.getUserPrincipal().getName();
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new BookNotFoundException(bookId));
+        if ((book.getUser().getUserName() == null) && (book.getLocker().getUserName() == null)) {
+            book.setLocker(userRepository.findByUserName(currentUserName));
+            Thread.sleep(10000);
+            return bookRepository.save(book);
+        }
+        else {
+            throw new BookAccessException(bookId);
+        }
+    }
+
+
 }
