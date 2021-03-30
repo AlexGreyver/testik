@@ -1,4 +1,4 @@
-package com.Dtos;
+package com.Dto;
 
 public class UserDto {
     private String name;

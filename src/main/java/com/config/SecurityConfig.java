@@ -1,6 +1,6 @@
 package com.config;
 
-import com.components.MyBasicAuthenticationEntryPoint;
+import com.component.MyBasicAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/users/get", "/booklist", "/error/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/users/get", "/booklist/**", "/error/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()

@@ -1,9 +1,10 @@
-package com.Dtos;
+package com.Dto;
 
 public class BookDto {
     private String name;
     private Integer year;
     private String holderName;
+    private Boolean isLocked;
 
     public String getName() {
         return name;
@@ -27,5 +28,13 @@ public class BookDto {
 
     public void setHolderName(String holderName) {
         this.holderName = holderName;
+    }
+
+    public Boolean getLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(Boolean locked) {
+        isLocked = locked;
     }
 }

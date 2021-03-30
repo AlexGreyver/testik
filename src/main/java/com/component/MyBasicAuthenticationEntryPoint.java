@@ -1,4 +1,4 @@
-package com.components;
+package com.component;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;

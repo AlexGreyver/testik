@@ -13,6 +13,7 @@ import java.util.Arrays;
 public class TestikApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(TestikApplication.class, args);
 	}
 	@Bean

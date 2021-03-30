@@ -1,6 +1,6 @@
-package com.mappers;
+package com.mapper;
 
-import com.Dtos.BookDto;
+import com.Dto.BookDto;
 import com.model.Book;
 
 public class BookMapping {
@@ -11,6 +11,7 @@ public class BookMapping {
         bookDto.setName(book.getName());
         bookDto.setHolderName(book.getUser().getName());
         bookDto.setYear(book.getYear());
+        bookDto.setLocked(book.getLocker() != null);
         return bookDto;
     }
 }

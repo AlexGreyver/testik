@@ -1,6 +1,6 @@
-package com.mappers;
+package com.mapper;
 
-import com.Dtos.UserDto;
+import com.Dto.UserDto;
 import com.model.User;
 
 public class UserMapping {
